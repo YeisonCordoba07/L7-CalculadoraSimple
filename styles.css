@@ -34,6 +34,7 @@
     display: flex;
     justify-content: end;
     align-items: center;
+    overflow: hidden;
 }
 
 #entrada{
@@ -66,11 +67,18 @@
     border-style: none;
 }
 .tecla:hover{
-    background-color: brown;
+    transition-duration: 150ms;
+    transform: translate(4px, 4px);
+    box-shadow: 3px 3px 0px  rgba(0, 0, 0, 0.3);
+    filter: brightness(85%);
+}
+
+.tecla:active{
+
     transition-duration: 150ms;
     transform: translate(7px, 7px);
     box-shadow: 0px 0px 0px  rgba(0, 0, 0, 0.3);
-    filter: brightness(85%);
+    filter: brightness(60%);
 }
 
 .letra{
