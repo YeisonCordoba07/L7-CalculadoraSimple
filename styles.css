@@ -120,7 +120,14 @@ main{
     color: white;
 }
 
+#ultimo{
+    grid-column: 3/5;
+    grid-column-start: 3;
+    grid-column-end: 5;
+    width: calc((var(--size-teclas)*2) + 14px);
+    height: var(--size-teclas);
 
+}
 
 
 footer{
