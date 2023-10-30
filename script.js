@@ -82,8 +82,8 @@ botones.forEach(boton => {
 
                     }else{
                         esValido = false;
-                        continuar = "Faltan parentesis";
-                        console.log(continuar);
+                        textoError.textContent = "Faltan parentesis";
+                        console.log(textoError.textContent);
                     }
                     break;
                 default:
@@ -92,12 +92,12 @@ botones.forEach(boton => {
         }else{
             entrada.textContent = entrada.textContent + contenido;
             //vectorOperacion.push(entrada.textContent);
-            continuar = verificarReglas();
-            textoError.textContent = continuar;
-            if (continuar === true) {
+
+            textoError.textContent = verificarReglas();
+            if (textoError.textContent === true) {
     
             } else {
-                console.log(continuar);
+                console.log("Error: ", textoError.textContent);
             }
         }
 
