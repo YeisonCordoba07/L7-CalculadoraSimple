@@ -1,12 +1,13 @@
 // Selecciona los botones y el párrafo
 const botones = document.querySelectorAll("button");
 const entrada = document.getElementById("entrada");
+const textoError = document.getElementById("error");
 
 const entradaAnterior = { letra: "", categoria: "" };
 const entradaActual = { letra: "", categoria: "" };
 
 const numeros = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"];
-const operadores = ["x", "/", "+", "-"];
+const operadores = ["*", "/", "+", "-"];
 const punto = ["."];
 const abreParentesis = ["("];
 const cierraParentesis = [")"];
@@ -14,8 +15,9 @@ const especiales = ["C", "<", "="];
 
 var resultado = 0;
 var contadorParentesis = 0;
-var estado = "correcto";
+var esValido = true;
 var continuar = true;
+var vectorOperacion = [];
 
 const estructura = {
     numero: ["n", "o", ".", ")"],
@@ -34,9 +36,10 @@ function reiniciar(){
     entradaActual.letra = "";
     entradaActual.categoria = "";
     entrada.textContent = "";
+    textoError.textContent = "";
     resultado = 0;
     contadorParentesis = 0;
-    estado = "correcto";
+    esValido = true;
     continuar = true;
 }
 
@@ -68,10 +71,17 @@ botones.forEach(boton => {
                 case "=":
                     //resultado = eval(entrada.textContent);
                     //console.log("Resultado:", resutado);
-                    if(contadorParentesis === 0){
+                    if(contadorParentesis === 0 && esValido === true){
+
+                        resultado = eval(entrada.textContent);
+                        console.log("Resultado: ", resultado);
+
+                        entrada.textContent = resultado;
+                        entradaActual.letra = resultado;
+                        entradaActual.categoria = "n";
 
                     }else{
-                        estado = "incorrecto";
+                        esValido = false;
                         continuar = "Faltan parentesis";
                         console.log(continuar);
                     }
@@ -81,7 +91,9 @@ botones.forEach(boton => {
             }
         }else{
             entrada.textContent = entrada.textContent + contenido;
+            //vectorOperacion.push(entrada.textContent);
             continuar = verificarReglas();
+            textoError.textContent = continuar;
             if (continuar === true) {
     
             } else {
@@ -93,6 +105,9 @@ botones.forEach(boton => {
         console.log("Categoría:", entradaActual.categoria);
     });
 });
+
+
+
 
 
 function identificarCategoria(caracter) {
@@ -115,29 +130,64 @@ function identificarCategoria(caracter) {
 }
 
 
+
+
+
 function verificarReglas() {
 
     if (entradaAnterior.categoria === "n") {
         if (!estructura.numero.includes(entradaActual.categoria)) {
-            estado = "incorrecto";
+            esValido = false;
             return "Se esperaba: Numero u Operador";
         }
     } else if (entradaAnterior.categoria === "o" || entradaAnterior.categoria === "(") {
         if (!estructura.operador.includes(entradaActual.categoria)) {
-            estado = "incorrecto";
+            esValido = false;
             return "Se esperaba: Numero o (";
         }
     } else if (entradaAnterior.categoria === ")") {
         if (!estructura.operador.includes(entradaActual.categoria)) {
-            estado = "incorrecto";
+            esValido = false;
             return "Se esperaba: Operador o )";
         }
     } else if (entradaAnterior.categoria === ".") {
         if (!estructura.punto.includes(entradaActual.categoria)) {
-            estado = "incorrecto";
+            esValido = false;
             return "Se esperaba: Numero";
         }
     }
 
     return true;
 }
+
+
+
+
+// Operaciones
+// function restar(numero1, numero2){
+//     let numero1 = parseFloat(numero1);
+//     let numero2 = parseFloat(numero2);
+
+//     return numero1 - numero2; 
+// }
+
+// function sumar(numero1, numero2){
+//     let numero1 = parseFloat(numero1);
+//     let numero2 = parseFloat(numero2);
+
+//     return numero1 + numero2; 
+// }
+
+// function multiplicar(numero1, numero2){
+//     let numero1 = parseFloat(numero1);
+//     let numero2 = parseFloat(numero2);
+
+//     return numero1 * numero2; 
+// }
+
+// function dividir(numero1, numero2){
+//     let numero1 = parseFloat(numero1);
+//     let numero2 = parseFloat(numero2);
+
+//     return numero1 / numero2; 
+// }
