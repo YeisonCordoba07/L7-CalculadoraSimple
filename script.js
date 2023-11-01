@@ -161,7 +161,7 @@ function verificarReglas() {
     if (entradaAnterior.categoria === "n") {
         if (!estructura.numero.includes(entradaActual.categoria)) {
             esValido = false;
-            return "No puede haber un (l";
+            return "No puede haber un (";
         }
     } else if (entradaAnterior.categoria === "o") {
         if (!estructura.operador.includes(entradaActual.categoria)) {
@@ -197,7 +197,7 @@ function verificarReglas() {
             }else if(entradaActual.categoria === "."){
                 return "No puede haber un punto";
             }else if(entradaActual.categoria === "("){
-                return "No puede haber un (b";
+                return "No puede haber un (.";
             }
 
             return "Se esperaba: Operador o )";
