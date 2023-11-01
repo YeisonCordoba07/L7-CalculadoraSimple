@@ -99,6 +99,7 @@ botones.forEach(boton => {
                     if(contadorParentesis === 0 && esValido === true){
 
                         resultado = eval(salidaPantalla.textContent);
+                        resultado = resultado.toFixed(2);
                         console.log("Resultado: ", resultado);
 
                         salidaPantalla.textContent = resultado;
