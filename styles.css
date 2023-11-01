@@ -14,18 +14,17 @@
 }
 
 body{
-    background-color: cornflowerblue;
-    background-color: peru;
+    /*background-color: cornflowerblue;
+    background-color: peru;*/
     background-color: teal;
 }
 main{
     display: flex;
     justify-content: center;
     align-items: center;
-
 }
 .contenedor-calculadora{
-    width: 600px;
+    width: fit-content;
     height: fit-content;
     background-color: #FFDE9F;
     border-radius: var(--borde);
@@ -36,16 +35,17 @@ main{
     row-gap: 20px;
     padding: 20px;
     box-shadow: 10px 10px 0px rgba(0, 0, 0, 0.4);
-    box-shadow: 10px 10px 0px #d2b47c;
+    box-shadow: 10px 10px 0px #b8975a;
+    position: relative;
+    margin-top: 20px;
 }
-
 
 
 
 .pantalla{
     background-color: gray;
     width: 100%;
-    height: 190px;
+    height: 150px;
     box-shadow: inset 7px 7px 0px rgba(0, 0, 0, 0.4);
     display: flex;
     justify-content: end;
@@ -130,6 +130,54 @@ main{
 }
 
 
+
+
+#contenedor-informe{
+    width: 400px;
+    height: var(--size-teclas);
+    background-color: wheat;
+    margin: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 7px 7px 0px #b99450;
+    border-style: none;
+    position: absolute;
+    right: -500px;
+    bottom: 0;
+}
+#contenedor-informe:hover{
+    transition-duration: 150ms;
+    transform: translate(4px, 4px);
+    box-shadow: 3px 3px 0px  #b99450;
+    filter: brightness(119%);
+    background-color: #d2b47c;
+}
+#contenedor-informe:active{
+
+    transition-duration: 150ms;
+    transform: translate(7px, 7px);
+    box-shadow: 0px 0px 0px  #b99450;
+    filter: brightness(80%);
+}
+
+#contenedor-informe a {
+    
+    text-align: center;
+    color: #000000; 
+    cursor: pointer;
+    text-decoration-line: none;
+    font-size: 30px;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    font-weight: bolder;
+    justify-content: center;
+    align-items: center;
+}
+
+
+
 footer{
     width: 100%;
     height: fit-content;
@@ -138,9 +186,9 @@ footer{
 }
 
 .contenedor-footer{
-    height: 100px;
+    height: 125px;
     width: 100%;
-    background-color: cornflowerblue;
+    background-color: rgb(0, 82, 82);
     margin: auto;
     padding: 10px;
     display: flex;
@@ -150,6 +198,7 @@ footer{
 }
 .contenedor-footer p{
     color: white;
+    font-size: 26px;
     font-weight: bolder;
 }
 

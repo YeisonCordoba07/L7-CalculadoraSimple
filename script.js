@@ -16,7 +16,6 @@ const especiales = ["C", "<", "="];
 var resultado = 0;
 var contadorParentesis = 0;
 var esValido = true;
-var continuar = true;
 var vectorOperacion = [];
 
 const estructura = {
@@ -40,7 +39,6 @@ function reiniciar(){
     resultado = 0;
     contadorParentesis = 0;
     esValido = true;
-    continuar = true;
 }
 
 
@@ -157,7 +155,7 @@ function verificarReglas() {
         }
     }
 
-    return true;
+    return "|";
 }
 
 
