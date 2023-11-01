@@ -1,6 +1,6 @@
 // Selecciona los botones y el párrafo
 const botones = document.querySelectorAll("button");
-const entrada = document.getElementById("entrada");
+const salidaPantalla = document.getElementById("entrada");
 const textoError = document.getElementById("error");
 
 const entradaAnterior = { letra: "", categoria: "" };
@@ -17,11 +17,12 @@ var resultado = 0;
 var contadorParentesis = 0;
 var esValido = true;
 var vectorOperacion = [];
+var esPrimeraEntrada = true;
 
 const estructura = {
     numero: ["n", "o", ".", ")"],
     operador: ["n", "("],
-    abreParentesis: ["n", "("],
+    abreParentesis: ["n", "(", "o"],
     cierraParentesis: ["o", ")"],
     punto: ["n"]
 };
@@ -34,25 +35,57 @@ function reiniciar(){
     entradaAnterior.catergoria = "";
     entradaActual.letra = "";
     entradaActual.categoria = "";
-    entrada.textContent = "";
+    salidaPantalla.textContent = "";
     textoError.textContent = "";
     resultado = 0;
     contadorParentesis = 0;
     esValido = true;
+    esPrimeraEntrada = true;
 }
 
 
 
 
-// Agrega un evento de clic a cada botón
 botones.forEach(boton => {
     boton.addEventListener("click", () => {
+        const contenidoBoton = boton.querySelector("span").textContent;
 
-        entradaAnterior.letra = entradaActual.letra;
-        entradaAnterior.categoria = entradaActual.categoria;
-        const contenido = boton.querySelector("span").textContent;
-        entradaActual.letra = contenido;
-        entradaActual.categoria = identificarCategoria(entradaActual.letra);
+        console.log("contenido boton,", contenidoBoton);
+        if(esPrimeraEntrada === true){
+
+            switch (contenidoBoton){
+                case ")":
+                    esValido = false;
+                    textoError.textContent = "No puede iniciar con )";
+                break;
+                case "*":
+                    esValido = false;
+                    textoError.textContent = "No puede iniciar con *";
+                break;
+                case "/":
+                    esValido = false;
+                    textoError.textContent = "No puede iniciar con /";
+                break;
+                case "+":
+                    esValido = false;
+                    textoError.textContent = "No puede iniciar con +";
+                break;
+                case ".":
+                    esValido = false;
+
+                    textoError.textContent = "No puede iniciar con .";
+                break;
+
+            }
+            esPrimeraEntrada = false;
+        }
+            entradaAnterior.letra = entradaActual.letra;
+            entradaAnterior.categoria = entradaActual.categoria;
+
+            entradaActual.letra = contenidoBoton;
+            entradaActual.categoria = identificarCategoria(entradaActual.letra);
+        
+
 
 
         if (entradaActual.categoria === "especial") {
@@ -61,20 +94,14 @@ botones.forEach(boton => {
                 case "C":
                     reiniciar();
                     break;
-                case "<":
-                    aux = entrada.textContent;
-                    aux = aux.slice(0, -1);
-                    entrada.textContent = aux;
-                    break;
                 case "=":
-                    //resultado = eval(entrada.textContent);
-                    //console.log("Resultado:", resutado);
+
                     if(contadorParentesis === 0 && esValido === true){
 
-                        resultado = eval(entrada.textContent);
+                        resultado = eval(salidaPantalla.textContent);
                         console.log("Resultado: ", resultado);
 
-                        entrada.textContent = resultado;
+                        salidaPantalla.textContent = resultado;
                         entradaActual.letra = resultado;
                         entradaActual.categoria = "n";
 
@@ -85,12 +112,10 @@ botones.forEach(boton => {
                     }
                     break;
                 default:
-                    let prueba = "Especial no identificado";
+                    break;       
             }
         }else{
-            entrada.textContent = entrada.textContent + contenido;
-            //vectorOperacion.push(entrada.textContent);
-
+            salidaPantalla.textContent = salidaPantalla.textContent + contenidoBoton;
             textoError.textContent = verificarReglas();
             if (textoError.textContent === true) {
     
@@ -136,26 +161,60 @@ function verificarReglas() {
     if (entradaAnterior.categoria === "n") {
         if (!estructura.numero.includes(entradaActual.categoria)) {
             esValido = false;
-            return "Se esperaba: Numero u Operador";
+            return "No puede haber un (l";
         }
-    } else if (entradaAnterior.categoria === "o" || entradaAnterior.categoria === "(") {
+    } else if (entradaAnterior.categoria === "o") {
         if (!estructura.operador.includes(entradaActual.categoria)) {
             esValido = false;
+            
+            if(entradaActual.categoria === "o"){
+                return "No puede haber otro operador seguido";
+            }else if(entradaActual.categoria === "."){
+                return "No puede haber un punto";
+            }else if(entradaActual.categoria === ")"){
+                return "No puede haber un )";
+            }
+            
+            return "Se esperaba: Numero o (";
+        }
+    }else if (entradaAnterior.categoria === "(") {
+        if (!estructura.abreParentesis.includes(entradaActual.categoria)) {
+            esValido = false;
+
+            if(entradaActual.categoria === ")"){
+                return "No puede haber un )";
+            }else if(entradaActual.categoria === "."){
+                return "No puede haber un punto";
+            }
             return "Se esperaba: Numero o (";
         }
     } else if (entradaAnterior.categoria === ")") {
-        if (!estructura.operador.includes(entradaActual.categoria)) {
+        if (!estructura.cierraParentesis.includes(entradaActual.categoria)) {
             esValido = false;
+
+            if(entradaActual.categoria === "n"){
+                return "No puede haber un número seguido";
+            }else if(entradaActual.categoria === "."){
+                return "No puede haber un punto";
+            }else if(entradaActual.categoria === "("){
+                return "No puede haber un (b";
+            }
+
             return "Se esperaba: Operador o )";
         }
     } else if (entradaAnterior.categoria === ".") {
         if (!estructura.punto.includes(entradaActual.categoria)) {
             esValido = false;
-            return "Se esperaba: Numero";
+            return "Después de . solo puede ir un número";
         }
     }
 
-    return "|";
+
+    if(esValido === true){
+        return "|";
+    }
+    return textoError.textContent;
+
 }
 
 

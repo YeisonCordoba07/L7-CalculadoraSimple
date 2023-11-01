@@ -38,6 +38,8 @@ main{
     box-shadow: 10px 10px 0px #b8975a;
     position: relative;
     margin-top: 20px;
+    max-width: 600px;
+
 }
 
 
@@ -60,7 +62,6 @@ main{
     font-weight: bolder;
     font-family: Verdana, Geneva, Tahoma, sans-serif;
     color: white;
-
 }
 
 #error{
